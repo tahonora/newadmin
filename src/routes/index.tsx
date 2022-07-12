@@ -12,7 +12,7 @@ export const AppRoutes = () => {
       {
         icon: 'home',
         path: '/home',
-        label: 'Página Inicial',
+        label: 'Dashboard',
       },
     ])
   }, [])
