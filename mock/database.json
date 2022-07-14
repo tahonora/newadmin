@@ -1,0 +1,11 @@
+{
+  "pessoas" : [
+    {
+      "id" :1,
+      "email":"zeze@mail.com",
+      "cidadeId":1, 
+      "nomecompleto":"Zezé da Silva"
+    }  
+  ]
+}
+
