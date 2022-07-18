@@ -1,6 +1,19 @@
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, TableFooter, LinearProgress } from '@mui/material'
+import { 
+  TableContainer, 
+  Table, 
+  TableHead, 
+  TableRow, 
+  TableCell, 
+  TableBody, 
+  Paper, 
+  TableFooter, 
+  LinearProgress, 
+  Pagination,
+  Icon, 
+  IconButton,
+} from '@mui/material'
 import { useEffect, useMemo, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { FerramentasDaListagem } from '../../shared/components'
 import { Environment } from '../../shared/environment'
 import { useDebounce } from '../../shared/hooks'
@@ -10,6 +23,7 @@ import { IListagemPessoa, PessoasService } from '../../shared/services/api/pesso
 export const ListagemDePessoas: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const { debounce } = useDebounce()
+  const navigate = useNavigate()
 
   const [rows, setRows] = useState<IListagemPessoa[]>([])
   const [totalCount, setTotalCount] = useState(0)
@@ -19,11 +33,16 @@ export const ListagemDePessoas: React.FC = () => {
     return searchParams.get('busca') || ''
   }, [searchParams])
 
+  const pagina = useMemo(() => {
+    return Number(searchParams.get('pagina') || 1)
+  }, [searchParams])
+
+
   useEffect(() => {
     setIsLoading(true)
 
     debounce(() => {
-      PessoasService.getAll(1,busca)
+      PessoasService.getAll(pagina,busca)
         .then((result) => {
           setIsLoading(false)
 
@@ -36,7 +55,24 @@ export const ListagemDePessoas: React.FC = () => {
           }
         })
     })
-  }, [busca])
+  }, [busca, pagina])
+
+  const handleDelete = (id: number) => {
+    if(confirm('Realmente deseja apagar?')){
+      PessoasService.deleteById(id)
+        .then(result => {
+          if(result instanceof Error) {
+            alert(result.message)
+          } else {
+            setRows(oldRows => [
+              ...oldRows.filter(oldRow => oldRow.id !== id)
+            ])
+            alert('Registro apagado com sucesso')
+          }
+        })
+    }
+  }
+
 
   return (
     <LayoutBaseDePagina 
@@ -46,7 +82,7 @@ export const ListagemDePessoas: React.FC = () => {
           mostrarInputBusca
           textoBotaoNovo='Nova'
           textodeBusca={busca}
-          aoMudarTextoDeBusca={texto => setSearchParams({busca: texto}, { replace: true})}      
+          aoMudarTextoDeBusca={texto => setSearchParams({busca: texto, pagina: '1' }, { replace: true})}      
         />
       }  
     >
@@ -63,7 +99,15 @@ export const ListagemDePessoas: React.FC = () => {
             {
               rows.map(row => 
                 <TableRow key={row.id} >
-                  <TableCell>Ações</TableCell>
+                  <TableCell>
+                    <IconButton size='small' onClick={() => handleDelete(row.id) } >
+                      <Icon>delete</Icon>
+                    </IconButton>
+                    <IconButton size='small' onClick={() => navigate(`/pessoas/detalhe/${row.id}`)} >
+                      <Icon>edit</Icon>
+                    </IconButton>
+
+                  </TableCell>
                   <TableCell>{row.nomecompleto}</TableCell>
                   <TableCell>{row.email}</TableCell>
                 </TableRow>,
@@ -83,6 +127,18 @@ export const ListagemDePessoas: React.FC = () => {
                 </TableCell>
               </TableRow>
             )}  
+            {(totalCount > 0 && totalCount > Environment.LIMITE_DE_LINHAS ) && (
+              <TableRow>
+                <TableCell colSpan={3} >
+                  <Pagination 
+                    page={pagina}
+                    count={Math.ceil(totalCount / Environment.LIMITE_DE_LINHAS) } 
+                    onChange={(_, newPage) => setSearchParams({busca, pagina: newPage.toString()}, {replace: true})}
+                  />
+                </TableCell>
+              </TableRow>
+            )}  
+
           </TableFooter>
         </Table>
       </TableContainer>  
