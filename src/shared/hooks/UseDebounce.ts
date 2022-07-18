@@ -1,8 +1,8 @@
 import { useCallback, useRef } from 'react'
 
 export const useDebounce = (delay = 300, notDelayInFirstTime = true) => {
-  const debbouncing = useRef<NodeJS.Timeout>()
   const isFirstTime = useRef(notDelayInFirstTime) 
+  const debbouncing = useRef<NodeJS.Timeout>()
 
   const debounce = useCallback((func: () => void) => {
     if(isFirstTime.current) {
@@ -12,8 +12,8 @@ export const useDebounce = (delay = 300, notDelayInFirstTime = true) => {
       if(debbouncing.current) {
         clearTimeout(debbouncing.current)
       }
-      debbouncing.current = setTimeout(() => { func() }, 1000)  
-    }
+      debbouncing.current = setTimeout(() => { func() }, delay)  
+    } 
   }, [delay])
   return {debounce}
 }

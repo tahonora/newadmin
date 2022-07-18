@@ -5,7 +5,20 @@
       "email":"zeze@mail.com",
       "cidadeId":1, 
       "nomecompleto":"Zezé da Silva"
+    },  
+    {
+      "id" :2,
+      "email":"maria@mail.com",
+      "cidadeId":1, 
+      "nomecompleto":"Maria da Silva"
+    },  
+    {
+      "id" :3,
+      "email":"joao@mail.com",
+      "cidadeId":1, 
+      "nomecompleto":"João da Silva"
     }  
+  
   ]
 }
 
