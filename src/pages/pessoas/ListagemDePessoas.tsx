@@ -65,7 +65,7 @@ export const ListagemDePessoas: React.FC = () => {
             alert(result.message)
           } else {
             setRows(oldRows => [
-              ...oldRows.filter(oldRow => oldRow.id !== id)
+              ...oldRows.filter(oldRow => oldRow.id !== id),
             ])
             alert('Registro apagado com sucesso')
           }
@@ -81,6 +81,7 @@ export const ListagemDePessoas: React.FC = () => {
         <FerramentasDaListagem
           mostrarInputBusca
           textoBotaoNovo='Nova'
+          aoClicarEmNovo={() => navigate('/pessoas/detalhe/nova')} 
           textodeBusca={busca}
           aoMudarTextoDeBusca={texto => setSearchParams({busca: texto, pagina: '1' }, { replace: true})}      
         />

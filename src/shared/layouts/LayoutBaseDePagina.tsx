@@ -6,6 +6,7 @@ import { useDrawerContext } from '../contexts'
 interface ILayoutBaseDePagina {
   children: React.ReactNode
   titulo: string
+  colors?: ReactNode
   barraDeFerramentas?: ReactNode
 }
 
@@ -28,8 +29,9 @@ export const LayoutBaseDePagina: React.FC<ILayoutBaseDePagina> = ({children, tit
           overflow='hidden'
           whiteSpace='nowrap'
           textOverflow='ellipsis'
-          variant={smDown ? 'h5' : mdDown ? 'h4' : 'h3' }
-
+          variant={smDown ? 'h6' : mdDown ? 'h5' : 'h4' }
+          fontFamily={'Arial'} 
+          color={theme.palette.secondary.light}
         >
           {titulo}
         </Typography>

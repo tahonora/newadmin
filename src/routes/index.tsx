@@ -2,8 +2,11 @@ import { useEffect } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { 
   Dashboard,
+  DetalheDePessoas,
+  ListagemDeInstagram,
   ListagemDePessoas,
 } from '../pages'
+import { Lojas } from '../pages/lojas/Lojas'
 import { useDrawerContext } from '../shared/contexts'
 
 
@@ -15,12 +18,32 @@ export const AppRoutes = () => {
       {
         icon: 'home',
         path: '/home',
-        label: 'Dashboard',
+        label: 'Home',
       },
       {
-        icon: 'city',
+        icon: 'yard',
+        path: '/tulipa',
+        label: 'A Tulipa',
+      },
+      {
+        icon: 'people',
         path: '/pessoas',
-        label: 'Pessoas',
+        label: 'Depoimentos',
+      },
+      {
+        icon: 'facebook',
+        path: '/instagram',
+        label: 'Instagram',
+      },
+      {
+        icon: 'contacts',
+        path: '/contato',
+        label: 'Contato',
+      },
+      {
+        icon: 'map',
+        path: '/lojas',
+        label: 'Nossas Lojas',
       },
     ])
   }, [])
@@ -29,7 +52,12 @@ export const AppRoutes = () => {
     <Routes>
       <Route path='/home' element={<Dashboard />} />
       <Route path='/pessoas' element={<ListagemDePessoas />} />
-      <Route path='*' element={<Navigate to='home' />}  />
+      <Route path='/pessoas/detalhe/:id' element={<DetalheDePessoas />} />
+      <Route path='/instagram' element={<ListagemDeInstagram /> } />
+      <Route path='/contato' element={<Lojas /> } />
+      <Route path='/lojas' element={<Lojas /> } />
     </Routes>
   )
 }
+
+//      <Route path='*' element={<Navigate to='home' />}  />
