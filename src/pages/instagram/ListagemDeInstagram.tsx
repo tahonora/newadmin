@@ -11,18 +11,17 @@ import {
 import InfoIcon from '@mui/icons-material/Info';
 
 import { useEffect, useMemo, useState } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { FerramentasDaListagem } from '../../shared/components'
 import { Environment } from '../../shared/environment'
 import { useDebounce } from '../../shared/hooks'
 import { LayoutBaseDePagina } from '../../shared/layouts'
 import { IListagemInstagram, InstagramService } from '../../shared/services/api/instagram/InstagramService'
+import { useSearchParams } from 'react-router-dom';
 
 
 export const ListagemDeInstagram: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const { debounce } = useDebounce(3000)
-  const navigate = useNavigate()
 
   const [rows, setRows] = useState<IListagemInstagram[]>([])
   const [totalCount, setTotalCount] = useState(0)
@@ -48,7 +47,6 @@ export const ListagemDeInstagram: React.FC = () => {
           } else {
             setRows(result.datas)
             setTotalCount(result.totalCount)
-            console.log(result.datas)
           }
         })
     })
@@ -98,10 +96,7 @@ export const ListagemDeInstagram: React.FC = () => {
                 actionIcon={
                   <IconButton
                     sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                    aria-label={`info about ${item.caption}`}
-                    onClick={() => <Link to={item.permalink} />
-                    //  navigate(`${item.permalink}`)
-                    }
+                    aria-label={`info about ${item.caption}`}                    
                   >
                     <InfoIcon />
                   </IconButton>

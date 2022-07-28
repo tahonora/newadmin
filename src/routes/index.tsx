@@ -56,8 +56,8 @@ export const AppRoutes = () => {
       <Route path='/instagram' element={<ListagemDeInstagram /> } />
       <Route path='/contato' element={<Lojas /> } />
       <Route path='/lojas' element={<Lojas /> } />
+      <Route path='*' element={<Navigate to='home' />}  />
     </Routes>
   )
 }
 
-//      <Route path='*' element={<Navigate to='home' />}  />

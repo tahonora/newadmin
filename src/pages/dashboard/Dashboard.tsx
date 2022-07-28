@@ -1,6 +1,6 @@
-import { InstaFeed } from '../../shared/components/instafeed/instafeed'
 import { LayoutBaseDePagina } from '../../shared/layouts'
-import { DetalheDePessoas } from '../pessoas/DetalheDePessoas'
+import { ListagemDeInstagram } from '../instagram/ListagemDeInstagram'
+import { Lojas } from '../lojas/Lojas'
 
 export const Dashboard = () => {
 
@@ -9,10 +9,12 @@ export const Dashboard = () => {
       titulo='Tulipa' 
       
       barraDeFerramentas={(
-        <DetalheDePessoas />
+        <>
+          <ListagemDeInstagram />
+          <Lojas />
+        </>
       )} 
-    >dsf
-      
+    >      
     </LayoutBaseDePagina>
   )
 }
