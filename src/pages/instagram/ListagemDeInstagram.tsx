@@ -6,7 +6,7 @@ import {
   ImageListItemBar,
   LinearProgress,
   Pagination,
-  Paper,
+  useTheme,
 } from '@mui/material'
 import InfoIcon from '@mui/icons-material/Info';
 
@@ -17,7 +17,6 @@ import { useDebounce } from '../../shared/hooks'
 import { LayoutBaseDePagina } from '../../shared/layouts'
 import { IListagemInstagram, InstagramService } from '../../shared/services/api/instagram/InstagramService'
 import { useSearchParams } from 'react-router-dom';
-
 
 export const ListagemDeInstagram: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -52,9 +51,11 @@ export const ListagemDeInstagram: React.FC = () => {
     })
   }, [busca, pagina])
 
+  const theme = useTheme()
+
   return (  
     <LayoutBaseDePagina 
-      titulo='Ultimas Postagens Instagram'
+      titulo='Últimas postagens insta'
       barraDeFerramentas={
         <FerramentasDaListagem
           mostrarInputBusca
@@ -63,29 +64,25 @@ export const ListagemDeInstagram: React.FC = () => {
         />
       }  
     >
-      <ImageList
-        component={Paper} 
-        sx={{ m: 1, width: 'auto' }}
-        cols={5}      
-        rowHeight={'auto'}
-      >        
+      <ImageList        
+        sx={{ height: theme.spacing(145), width: theme.spacing(145) }}        
+        component={Box}
+        display='flex'
+        flexDirection={'row'} 
+        padding={1} 
+        gap={1}
+        cols={3}
+        overflow={'hidden'}
+      >
         {
           rows.map(item => 
             <ImageListItem 
               key={item.id}
               component={Box}
-              overflow='hidden'
+              sx={{ height: theme.spacing(45), width: theme.spacing(45) }}        
             >
               <Box
-                sx={{
-                  height: 433,
-                  width: 450,
-                  padding: 1,
-                  maxHeight: { xs: 333, md: 167 },
-                  maxWidth: { xs: 450, md: 250 },
-                  gap: 1,                   
-                }}         
-                flex={1}  
+                sx={{ height: '100%', width: '100%' }}        
                 component='img'
                 src={`${item.media_url}`}                   
                 alt={`${item.caption}`} 
@@ -94,7 +91,7 @@ export const ListagemDeInstagram: React.FC = () => {
                 title={item.caption}
                 subtitle={item.username}
                 actionIcon={
-                  <IconButton
+                  <IconButton 
                     sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
                     aria-label={`info about ${item.caption}`}                    
                   >
